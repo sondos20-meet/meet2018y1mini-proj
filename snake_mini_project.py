@@ -76,30 +76,33 @@ RIGHT = 3
 ####WRITE YOUR CODE HERE!!
 
 direction = UP
+UP_EDGE = 250
+DOWN_EDGE = -250
+RIGHT_EDGE = 400
+LEFT_EDGE = -400
+
+
+
 
 def up():
     global direction 
     direction=UP 
-    move_snake()
     print("You pressed the up key!")
 
 
 def left():
     global direction 
     direction=LEFT 
-    move_snake()
     print("You pressed the left key!")
 
 def down():
     global direction
     direction=DOWN
-    move_snake()
     print("you pressesd the down key!")
 
 def right():
     global direction
     direction=RIGHT
-    move_snake()
     print("you pressed the right key!")
 
 #2. Make fu nctions down(), left(), and right() that change direction
@@ -125,12 +128,31 @@ def move_snake():
         snake.goto(x_pos - SQUARE_SIZE, y_pos)
         print("You moved left!")
     elif direction==UP:
-        snake.goto(x_pos, y_pos - SQUARE_SIZE)
+        snake.goto(x_pos, y_pos + SQUARE_SIZE)
         print("you moved up!")
     else:  
         snake.goto(x_pos, y_pos - SQUARE_SIZE)
         print("you moved down!")
 
+    new_pos = snake.pos()
+    new_x_pos = new_pos[0]
+    new_y_pos = new_pos[1]
+    if new_x_pos >= RIGHT_EDGE:
+        print("You hit the right edge! Game over!")
+        quit()
+            
+    elif new_x_pos <= LEFT_EDGE:
+        print("you hit the left edge! game over!")
+        quit()
+    elif new_y_pos >= UP_EDGE:
+        print("you hit the upper edge! game over!")
+        quit()
+    elif new_y_pos <= DOWN_EDGE:
+        print("you hit the down edge! game over!")
+        quit()
+    turtle.ontimer(move_snake,TIME_STEP)
+
+  
     #4. Write the conditions for UP and DOWN on your own
     ##### YOUR CODE HERE
 
@@ -147,6 +169,28 @@ def move_snake():
     old_stamp = stamp_list.pop(0)
     snake.clearstamp(old_stamp)
     pos_list.pop(0)
+#move_snake()
 
+turtle.register_shape("trash.gif") #Add trash picture
+                      # Make sure you have downloaded this shape 
+                      # from the Google Drive folder and saved it
+                      # in the same folder as this Python script
 
+food = turtle.clone()
+food.shape("trash.gif") 
+
+#Locations of food
+food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
+food_stamps = []
+
+# Write code that:
+#1. moves the food turtle to each food position
+for i in food_pos:
+    food.goto(i)
+    food_id =food.stamps()
+    food_stamps.append(food_id)
+#2. stamps the food turtle at that location
+#3. saves the stamp by appending it to the food_stamps list using
+# food_stamps.append(    )
+#4. Don’t forget to hide the food turtle!
 
